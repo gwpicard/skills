@@ -149,6 +149,10 @@ For SaaS/B2B:
 - Clear cancellation policy
 - Privacy policy and terms
 
+### Trust Breakers
+
+Missing proof lowers trust slowly; manipulative design destroys it once noticed. Flag any of these as trust issues, quoting what the page shows: fake urgency (timers that reset, undated "ends today"), unsourced scarcity ("only 2 left"), confirmshaming decline links, pre-checked marketing or add-on boxes, consent banners where rejecting is harder than accepting, prices that grow with fees later in the flow, and cancellation that is harder than sign-up. Detailed criteria sit in the forms, states and dark patterns checklist.
+
 ---
 
 ## Site-Type Specific Guidance

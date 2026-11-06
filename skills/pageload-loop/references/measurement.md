@@ -172,6 +172,13 @@ each carries its own noise, so their sum is not the total.
   answers same or different.
 - Masking (`--mask`) hides selectors behind a solid box. It is off by
   default and only offered when the A/A capture differs.
+- Accessibility check (on by default, off with `setup_tools.sh --no-a11y`):
+  `visual_diff.mjs axe` runs axe-core's default rules at both viewports after
+  the same settle steps, once on the original and once on the final build.
+  `compare.py a11y` reports violations whose rule id and target selector are
+  absent from the original scan. A DOM change can shift a selector and make
+  an old violation look new, so check the HTML snippet in `a11y.json`. It
+  never reverts a change; the lead reports new serious or critical ones.
 
 ## 9. runs.jsonl format
 

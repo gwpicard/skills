@@ -26,6 +26,8 @@ In `skills/brand-definition/`:
 
 The two `.mjs` scripts need Puppeteer (`npm i puppeteer` in a scratch folder, or set `PUPPETEER_PATH`).
 
+In `skills/high-fidelity-prototypes/`, `scripts/axe_states.mjs` runs axe-core against each named state of a prototype at each viewport. It needs Playwright and `@axe-core/playwright` (`npm i playwright @axe-core/playwright` in a scratch folder, then run it from there).
+
 ## Principles
 
 1. Identity comes from what the organisation owns, not from styling.

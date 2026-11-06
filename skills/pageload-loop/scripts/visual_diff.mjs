@@ -5,6 +5,7 @@
 //   node visual_diff.mjs capture --origin http://localhost:4002 --pages /,/pricing --out DIR [--mask SEL,SEL] [--viewport-only]
 //   node visual_diff.mjs compare --base DIR --cand DIR --out DIR [--max-ratio 0.001]
 //   node visual_diff.mjs pair    --base DIR --cand DIR --shots NAME,NAME --out DIR [--key-dir DIR]
+//   node visual_diff.mjs axe     --origin http://localhost:4001 --pages /,/pricing --out FILE.json
 //
 // capture  One fresh browser context per shot, at 390x844 (mobile) and 1440x900 (desktop),
 //          device scale 1, reduced motion, CSS animations and transitions off, caret hidden.
@@ -24,8 +25,12 @@
 // pair     For shots that failed, copies base and candidate as A.png and B.png in random
 //          order into DIR/<shot>/ for a blind critic. The key goes to --key-dir
 //          (default ~/.cache/pageload-loop/<project>/keys), outside the project.
+// axe      Accessibility scan with axe-core (@axe-core/playwright, default rule set) per page at
+//          both viewports, after the same settle steps as capture. Writes FILE.json with one
+//          entry per page and viewport: violations as rule id, impact, help and one node per
+//          target selector. compare.py a11y diffs two of these files. Informational only.
 //
-// Dependencies (install next to this script): playwright, pixelmatch, pngjs.
+// Dependencies (install next to this script): playwright, pixelmatch, pngjs; @axe-core/playwright for axe.
 // If Playwright's own Chromium is not installed, the script falls back to the local Chrome.
 
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -191,8 +196,43 @@ function pair(a) {
   console.log(JSON.stringify({ pairs: resolve(a.out), key: keyFile }));
 }
 
+async function axe(a) {
+  if (!a.origin || !a.out) throw new Error("axe needs --origin and --out");
+  let AxeBuilder;
+  try { AxeBuilder = (await import("@axe-core/playwright")).default; }
+  catch { throw new Error('@axe-core/playwright is not installed: run setup_tools.sh without --no-a11y'); }
+  const pages = (a.pages || "/").split(",").map(s => s.trim()).filter(Boolean);
+  const browser = await launch();
+  const results = [];
+  let version = null;
+  try {
+    for (const p of pages) {
+      for (const [vp, opts] of Object.entries(VIEWPORTS)) {
+        const ctx = await browser.newContext({ ...opts, reducedMotion: "reduce", colorScheme: "light",
+          locale: "en-US", timezoneId: "UTC" });
+        const page = await ctx.newPage();
+        const url = a.origin.replace(/\/$/, "") + p;
+        await page.goto(url, { waitUntil: "load", timeout: 60000 });
+        await settle(page, true);
+        const r = await new AxeBuilder({ page }).analyze();
+        version = r.testEngine && r.testEngine.version;
+        results.push({ page: p, viewport: vp, url, violations: r.violations.map(v => ({
+          id: v.id, impact: v.impact, help: v.help,
+          nodes: v.nodes.map(n => ({ target: n.target.flat().join(" >> "), html: (n.html || "").slice(0, 200) })),
+        })) });
+        await ctx.close();
+      }
+    }
+  } finally { await browser.close(); }
+  const out = resolve(a.out);
+  mkdirSync(resolve(out, ".."), { recursive: true });
+  writeFileSync(out, JSON.stringify({ origin: a.origin, axe: version, results }, null, 1));
+  console.log(JSON.stringify({ out, scans: results.length,
+    violations: results.reduce((n, r) => n + r.violations.reduce((m, v) => m + v.nodes.length, 0), 0) }));
+}
+
 const a = args(process.argv.slice(2));
-const run = { capture, compare, pair }[a._];
+const run = { capture, compare, pair, axe }[a._];
 if (!run) {
   console.log(readFileSync(new URL(import.meta.url), "utf8").split("\n").filter(l => l.startsWith("//")).map(l => l.slice(3)).join("\n"));
   process.exit(a._ ? 2 : 0);

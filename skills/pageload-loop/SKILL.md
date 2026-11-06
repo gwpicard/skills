@@ -72,7 +72,8 @@ Fixed by design (state them, do not ask): primary metric median LCP;
 guardrails CLS at most 0.1, TBT (the lab proxy for INP) and TTFB, which only
 block and never count as wins; both mobile and desktop profiles; the loop may
 add dependencies or change build, server or caching config, announced each
-time; masking dynamic regions is off unless the A/A visual check needs it.
+time; an axe accessibility check of original against final, on unless the
+user opts out; masking dynamic regions is off unless the A/A visual check needs it.
 
 ## Step 3. Build the harness and prove it
 
@@ -80,7 +81,8 @@ Read `references/measurement.md` before this step.
 
 1. **Tools.** `bash ${CLAUDE_SKILL_DIR}/scripts/setup_tools.sh .` copies the
    scripts to `.pageload/tools/`, installs Lighthouse 13, Playwright,
-   pixelmatch and pngjs there (not globally, not in the project's
+   pixelmatch, pngjs and @axe-core/playwright there (`--no-a11y` skips the
+   accessibility check when the user opts out) (not globally, not in the project's
    `package.json`), adds `.pageload/` to `.git/info/exclude`, and runs the
    `compare.py` self-test. It needs Node 22.19+ and Python 3.8+.
 2. **Branch.** `git switch -c perf/loop-$(date +%Y%m%d)`. Record the start
@@ -115,6 +117,8 @@ Read `references/measurement.md` before this step.
    If the A/A shots differ, look at the diff PNGs, name the dynamic regions
    (ads, dates, carousels, A/B variants), and only then offer the user
    masking with `--mask "selector,selector"` on every capture.
+   Unless the accessibility check is off, also scan the original:
+   `node $T/visual_diff.mjs axe --origin http://localhost:4001 --pages /,/pricing --out .pageload/a11y-original.json`.
 6. **Log the baseline and render the first report.**
    ```
    python3 $T/compare.py log --runs-jsonl .pageload/runs.jsonl --kind baseline --iter 0 \
@@ -237,6 +241,16 @@ For iteration N (two-digit folder `iter-NN`):
 
 If the user asks to stop mid-iteration, revert the uncommitted change first.
 
+**Accessibility check** (unless off). After stopping, scan the final build
+and diff it with the original scan:
+```
+node $T/visual_diff.mjs axe --origin http://localhost:4002 --pages <pages> --out .pageload/a11y-final.json
+python3 $T/compare.py a11y --base .pageload/a11y-original.json --cand .pageload/a11y-final.json --out .pageload/a11y.json
+```
+It is informational and never reverts a change. Before step 7, tell the user
+each new serious or critical violation (rule, page, target) and the
+iteration that likely caused it; the user decides whether to fix it.
+
 ## Step 7. Confirm and report
 
 1. Check out ORIGINAL in the base worktree, build, start on 4001. The final
@@ -254,7 +268,7 @@ If the user asks to stop mid-iteration, revert the uncommitted change first.
    what could not be measured (the report-only recommendations in
    `references/strategies.md` that apply, such as cache headers, CDN,
    bfcache and field INP), risks the user should review. Then
-   `python3 $T/report.py --runs-jsonl .pageload/runs.jsonl --out-dir .pageload --goal "<goal>" --status finished --notes .pageload/notes.md`.
+   `python3 $T/report.py --runs-jsonl .pageload/runs.jsonl --out-dir .pageload --goal "<goal>" --status finished --notes .pageload/notes.md [--a11y .pageload/a11y.json]`.
 4. Tell the user: the confirmed change per page and profile with its 95%
    interval, whether the goal is met, the dependency and config changes, and
    the report path. Offer `report.md` as the PR body. Stop the servers and
@@ -271,11 +285,11 @@ If the user asks to stop mid-iteration, revert the uncommitted change first.
 | `assets/critic-visual.md` | Blind same/different brief for the visual critic |
 | `scripts/setup_tools.sh` | Installs tools into `.pageload/tools/`, checks Node and browser |
 | `scripts/measure.mjs` | Interleaved Lighthouse runs, one fresh process each |
-| `scripts/compare.py` | Noise floor, keep/reject decision, confirmation, log, insights |
-| `scripts/visual_diff.mjs` | Screenshots, pixel diff with cluster check, blind pairs |
+| `scripts/compare.py` | Noise floor, keep/reject decision, confirmation, log, insights, a11y diff |
+| `scripts/visual_diff.mjs` | Screenshots, pixel diff with cluster check, blind pairs, axe scan |
 | `scripts/report.py` | `report.html` (self-contained) and `report.md` |
 
 Dependencies: Node 22.19+ with `lighthouse@13`, `playwright@1`,
-`pixelmatch@8`, `pngjs@7` (installed locally by `setup_tools.sh`), a Chrome
+`pixelmatch@8`, `pngjs@7`, `@axe-core/playwright@4` (installed locally by `setup_tools.sh`), a Chrome
 or Chromium (Playwright falls back to the installed Chrome), and Python 3.8+
 with the standard library only.

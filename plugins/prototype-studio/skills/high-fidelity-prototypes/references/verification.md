@@ -49,7 +49,14 @@ Use WCAG 2.2 AA as the default target unless the project sets another. Record wh
 - Targets are comfortably sized; inputs use suitable types and autocomplete and permit paste.
 - Headings, landmarks, page titles, image alternatives, and labels for charts and tables make sense.
 
-Run an automated checker such as axe on meaningful states, including an open dialog and a form with errors, not only the default view. Then do the keyboard and zoom checks by hand. For authoring tools, distinguish accessibility of the application from accessibility of the exported artifact. Screen-reader testing with real assistive technology is a separate step; say whether it happened.
+Run axe on every meaningful state at each viewport the prototype supports, including an open dialog and a form with errors, not only the default view. `scripts/axe_states.mjs` does this with Playwright and `@axe-core/playwright` (installed in a scratch folder, run from there):
+
+```bash
+cd <scratch> && npm i playwright @axe-core/playwright
+node <skill>/scripts/axe_states.mjs --states states.json --viewports 1440x900,390x844 --json axe.json
+```
+
+`states.json` names each state by its URL (preset, deep link) and the steps that reach it, for example `{ "name": "invite dialog", "url": "index.html#team", "steps": [{ "click": "#invite" }] }`; the script header shows the full format. It prints violations per state and viewport, with the rule and the element. Set `CHROME_PATH` to an installed Chrome to skip Playwright's browser download. Then do the keyboard and zoom checks by hand: an automated scan finds only some failures and does not establish conformance. For authoring tools, distinguish accessibility of the application from accessibility of the exported artifact. Screen-reader testing with real assistive technology is a separate step; say whether it happened.
 
 ## Visual and perception review
 
@@ -57,7 +64,7 @@ Interaction checks do not show whether the prototype looks right or says the rig
 
 - Inspect close crops at real size, not only full-page screenshots. Small defects (halos, cut-off lines, stray marks, objects passing through each other in motion) are invisible at thumbnail scale.
 - Measure contrast for text and accents on every background and in each colour mode. Measure the colour difference between surfaces that must read as distinct.
-- Run the agent-defaults gate (agent-defaults.md). When several builds exist, count each pattern across them.
+- Run the agent-defaults gate (agent-defaults.md). When several builds exist, count each pattern across them. `measure_reference.mjs` in brand-definition counts the common ones; `npx impeccable detect --json <path-or-url>` is an optional second counter (see the design-critique skill for its limits).
 - Ask a fresh-context reviewer what a first-time visitor would conclude in five seconds: what the product is, who it is for, and which adjectives it earns. Compare those adjectives with the ones the user asked for. The design-critique skill has the prompts.
 - Review motion frame by frame when motion carries meaning: movements should be believable, loops should make sense, and nothing should appear from nowhere.
 - Hold the critic's verdict apart from the user's. AI critics agree on tells but disagree on taste; the user makes the taste call.

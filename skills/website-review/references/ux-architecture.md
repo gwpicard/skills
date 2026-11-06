@@ -4,6 +4,7 @@
 - [Information Architecture](#information-architecture)
 - [Accessibility](#accessibility)
 - [Mobile Experience](#mobile-experience)
+- [Rendered Pass: Reading the Measurements](#rendered-pass-reading-the-measurements)
 
 ---
 
@@ -93,6 +94,8 @@ Trace the path from entry to goal:
 
 ### Color & Contrast
 
+Contrast depends on rendered colours, fonts, background images and overlays. Report it as measured only from the rendered pass (axe `color-contrast`); from markup or CSS alone it is inferred.
+
 - [ ] Text meets WCAG AA contrast ratio (4.5:1 for normal text, 3:1 for large)
 - [ ] Information not conveyed by color alone (add icons, text, patterns)
 - [ ] Links distinguishable from body text (not just by color)
@@ -106,14 +109,6 @@ Trace the path from entry to goal:
 - [ ] Modals trap focus correctly
 - [ ] Escape key closes modals/overlays
 - [ ] Custom components (dropdowns, carousels) support arrow keys
-
-### Forms
-
-- [ ] All inputs have associated `<label>` elements
-- [ ] Required fields clearly indicated (not just by color)
-- [ ] Error messages are specific and associated with the field
-- [ ] Form can be submitted via keyboard (Enter key)
-- [ ] Autocomplete attributes on common fields (name, email, phone)
 
 ### Media
 
@@ -129,14 +124,14 @@ Trace the path from entry to goal:
 ### Responsive Design
 
 - [ ] `<meta name="viewport" content="width=device-width, initial-scale=1">` present
-- [ ] Layout adapts to narrow viewports (no horizontal scrolling)
+- [ ] Layout adapts to narrow viewports: no horizontal scrolling at 320 CSS px wide (WCAG SC 1.4.10 Reflow)
 - [ ] Font sizes readable without zooming (minimum 16px body text)
 - [ ] Images scale appropriately (no overflow)
 - [ ] Tables either scroll horizontally or reformat for mobile
 
 ### Touch Targets
 
-- [ ] Minimum 44x44px touch targets (WCAG) / 48x48dp (Material)
+- [ ] At least 24x24 CSS px, or enough spacing around smaller targets (WCAG 2.2 SC 2.5.8, AA); 44x44 px is the AAA level (SC 2.5.5) and Apple's guideline; Material recommends 48x48 dp
 - [ ] Adequate spacing between adjacent tap targets
 - [ ] No hover-dependent interactions without touch alternatives
 - [ ] Dropdown menus work via tap (not hover-only)
@@ -155,3 +150,24 @@ Trace the path from entry to goal:
 - [ ] Long pages have anchor links or jump navigation
 - [ ] Forms are simplified for mobile input
 - [ ] Large data tables are handled gracefully (horizontal scroll, cards, or collapsible)
+
+---
+
+## Rendered Pass: Reading the Measurements
+
+`scripts/render_audit.mjs` writes `render_audit.json` plus screenshots. Each item below is **measured** evidence; cite the selector, count and viewport. Markup-only observations stay **inferred**.
+
+| JSON field | What it measured | Cite | How to read it |
+|---|---|---|---|
+| `viewports.*.axe.violations[]` | axe-core rules failed in the rendered DOM, per viewport | `wcag_sc` (e.g. 1.4.3), else "axe best practice" | `count` = affected nodes; `nodes[].target` = selector; `impact` is axe's rating, not yours. Group repeated nodes into one finding |
+| `viewports.*.axe.incomplete[]` | Checks axe could not decide (often contrast over images or gradients) | as above | Never report as failures. Look at the screenshot and mark "inferred from screenshot", or list as "needs manual check" |
+| `viewports.mobile.overflow` | Document wider than the 390 px viewport; `offenders` = elements crossing the right edge whose parent does not | SC 1.4.10 | `viewport_width` 980 means no viewport meta tag: the phone shows a zoomed-out desktop page, a bigger problem than overflow |
+| `reflow_320` | Same check at 320 px | SC 1.4.10 | Failure here but not at 390 px is a narrower-phone and 400% zoom problem |
+| `viewports.mobile.tap_targets` | Interactive elements under 24x24 px whose 24 px circle overlaps another target | SC 2.5.8 | `spaced_exception` targets pass the SC. Inline text links are skipped. Icon rows and footer links are the usual offenders |
+| `viewports.desktop.focus.no_style_change` | Tab stops where no outline, shadow, border, background, colour or underline changed on focus | SC 2.4.7 | Strong signal of a missing focus indicator; confirm on one element by hand when possible |
+| `viewports.desktop.focus.focus_off_screen` | Tab stops outside the visible viewport | SC 2.4.11 | Often hidden menus or off-canvas links that stay focusable |
+| `viewports.desktop.focus.pointer_not_focusable` | Elements with a pointer cursor that cannot take keyboard focus | SC 2.1.1 (candidate) | Candidates only: overlays and decorative wrappers also match. Report only when the element does something (opens, submits, navigates) |
+| `viewports.*.page_errors` | JavaScript errors thrown during load | (none) | Mention when they break visible features |
+| `screenshot_fold` / `screenshot_full` | 390x844 and 1440x900 renders, animations off | (none) | Use the fold shots for the 5-second test, CTA visibility and visual hierarchy. Cookie banners are not dismissed and may cover content |
+
+**Limits to state in the report**: automated rules find only part of WCAG failures; they cannot judge alt-text quality, reading order meaning, screen-reader announcements, focus order logic, or whether error messages help. The pass does not submit forms, open menus, log in or use assistive technology.

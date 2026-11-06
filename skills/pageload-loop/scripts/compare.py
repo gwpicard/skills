@@ -16,6 +16,7 @@ Usage:
   compare.py log      --runs-jsonl P --iter N --reject-reason TEXT [--hypothesis TEXT] [--change TEXT]
   compare.py final    --decision D.json --visual pass|critic-same|fail|off|skipped
   compare.py insights --insights I.json [--insights I2.json ...] [--only-variant NAME]
+  compare.py a11y     --base A11Y_ORIGINAL.json --cand A11Y_FINAL.json --out a11y.json
   compare.py selftest
 
 Common options: --primary lcp  --min-gain 0.03  --alpha 0.05  --base base  --cand cand
@@ -43,6 +44,11 @@ log      Appends one line per (page, profile, variant) to runs.jsonl. With
          --kind iteration the final decision is computed here: a measured keep
          becomes reject when the visual guard reports "fail".
 insights Ranks Lighthouse insights by estimated LCP savings across pages and profiles.
+a11y     Diffs two axe scans (visual_diff.mjs axe) of the original and the final build.
+         A violation is new when its (page, viewport, rule id, target selector) is absent
+         from the original scan. Prints one line per new violation, serious and critical
+         first. Exit 0 when nothing serious or critical is new, 1 otherwise. Informational:
+         the loop never reverts on it.
 """
 import argparse
 import json
@@ -443,6 +449,42 @@ def cmd_insights(a):
     return 0
 
 
+IMPACT_ORDER = {"critical": 0, "serious": 1, "moderate": 2, "minor": 3}
+
+
+def _a11y_keys(scan):
+    out = {}
+    for r in scan.get("results", []):
+        for v in r.get("violations", []):
+            for n in v.get("nodes", []):
+                out[(r["page"], r["viewport"], v["id"], n["target"])] = {
+                    "page": r["page"], "viewport": r["viewport"], "rule": v["id"], "target": n["target"],
+                    "impact": v.get("impact") or "minor", "help": v.get("help", ""), "html": n.get("html", "")}
+    return out
+
+
+def a11y_diff(base, cand):
+    b, c = _a11y_keys(base), _a11y_keys(cand)
+    new = sorted((c[k] for k in c if k not in b),
+                 key=lambda x: (IMPACT_ORDER.get(x["impact"], 9), x["page"], x["viewport"], x["rule"], x["target"]))
+    return {"new": new, "fixed": len([k for k in b if k not in c]), "unchanged": len([k for k in c if k in b]),
+            "serious_new": len([x for x in new if x["impact"] in ("serious", "critical")]),
+            "axe": cand.get("axe") or base.get("axe")}
+
+
+def cmd_a11y(a):
+    if a.base_scan in (None, "base") or a.cand_scan in (None, "cand"):
+        raise SystemExit("a11y needs --base and --cand (axe scan files)")
+    d = a11y_diff(load(a.base_scan), load(a.cand_scan))
+    if a.out:
+        Path(a.out).write_text(json.dumps(d, indent=1))
+    for x in d["new"]:
+        print(f"{x['impact']}\t{x['page']} {x['viewport']}\t{x['rule']}\t{x['target']}\t{x['help']}")
+    print(f"a11y: {len(d['new'])} new ({d['serious_new']} serious or critical), {d['fixed']} fixed, "
+          f"{d['unchanged']} unchanged")
+    return 1 if d["serious_new"] else 0
+
+
 # ---------- self-test ----------
 
 def _fake_measure(base_vals, cand_vals, page="/", profile="mobile", extra=None):
@@ -519,6 +561,12 @@ def cmd_selftest(_a):
     check("critic-same keeps", final_decision("keep", "critic-same")[0] == "keep")
     lo, hi = bootstrap_ci(base, [v * 0.85 for v in base])
     check(f"bootstrap CI excludes 0 for 15% gain ({lo:.0f}..{hi:.0f})", hi < 0)
+    scan = lambda vs: {"results": [{"page": "/", "viewport": "mobile", "violations": [
+        {"id": i, "impact": imp, "nodes": [{"target": t}]} for i, imp, t in vs]}]}
+    d = a11y_diff(scan([("region", "moderate", "h1")]),
+                  scan([("region", "moderate", "h1"), ("image-alt", "critical", "img")]))
+    check("a11y diff: one new critical, nothing fixed",
+          [x["rule"] for x in d["new"]] == ["image-alt"] and d["serious_new"] == 1 and d["fixed"] == 0)
     print("ALL PASS" if ok else "SOME FAILED")
     return 0 if ok else 1
 
@@ -536,7 +584,7 @@ class _quiet:
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["aa", "decide", "confirm", "final", "log", "insights", "selftest"])
+    ap.add_argument("cmd", choices=["aa", "decide", "confirm", "final", "log", "insights", "a11y", "selftest"])
     ap.add_argument("--measure")
     ap.add_argument("--noise")
     ap.add_argument("--decision")
@@ -560,8 +608,9 @@ def main():
     ap.add_argument("--insights", action="append")
     ap.add_argument("--only-variant", default=None, help="insights: use one variant's runs only")
     a = ap.parse_args()
+    a.base_scan, a.cand_scan = (a.base, a.cand) if a.cmd == "a11y" else (None, None)
     sys.exit({"aa": cmd_aa, "decide": cmd_decide, "confirm": cmd_confirm, "final": cmd_final, "log": cmd_log,
-              "insights": cmd_insights, "selftest": cmd_selftest}[a.cmd](a))
+              "insights": cmd_insights, "a11y": cmd_a11y, "selftest": cmd_selftest}[a.cmd](a))
 
 
 if __name__ == "__main__":

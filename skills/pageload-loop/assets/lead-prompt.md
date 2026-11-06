@@ -49,6 +49,7 @@ Candidate: main tree on http://localhost:4002
 
 ## Constraints
 - No visual changes: [on/off]. Masks: [none | selectors and why]
+- Accessibility check (axe, original vs final): [on/off]
 - Off-limits files: [paths or none]
 - Third-party scripts that must stay: [names; "load as now" or "may be deferred"]
 - Allowed with announcement: new dependencies, build/server/caching config changes

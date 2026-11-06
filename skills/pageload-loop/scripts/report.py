@@ -8,11 +8,12 @@ reloads itself every 60 seconds while --status is running.
 Usage:
   report.py --runs-jsonl .pageload/runs.jsonl --out-dir .pageload
             [--title TEXT] [--goal "mobile:lcp<=2500" | "lcp-20%"] [--status running|finished]
-            [--notes .pageload/notes.md] [--primary lcp]
+            [--notes .pageload/notes.md] [--primary lcp] [--a11y .pageload/runs/final/a11y.json]
 
 Goal syntax: [profile:]lcp<=MS (final median at or under MS on every chosen page) or
 [profile:]lcp-PCT% (confirmed improvement of at least PCT% on every chosen page).
 Without a profile prefix the goal applies to every profile.
+--a11y takes the diff written by compare.py a11y and adds an accessibility section.
 """
 import argparse
 import html
@@ -374,6 +375,21 @@ def auto_notes(rows, baseline, iters, order, confirm, primary):
     return n
 
 
+def md_cell(s):
+    return str(s).replace("|", "\\|")
+
+
+def a11y_none(d):
+    return (f"No new accessibility violations in the final build (axe {d.get('axe') or '?'}; "
+            f"{d['fixed']} fixed, {d['unchanged']} unchanged).")
+
+
+def a11y_summary(d):
+    return (f"{len(d['new'])} new accessibility violations ({d['serious_new']} serious or critical) in the final build "
+            f"compared with the original; {d['fixed']} fixed, {d['unchanged']} unchanged (axe {d.get('axe') or '?'}). "
+            "Matched by rule and target selector. Informational: no change was reverted because of it.")
+
+
 # ---------- render ----------
 
 def render(a):
@@ -457,6 +473,20 @@ def render(a):
     else:
         h.append("<p class='mutedt'>None.</p>")
 
+    a11y = json.loads(Path(a.a11y).read_text()) if a.a11y and Path(a.a11y).exists() else None
+    if a11y:
+        h.append("<h2>Accessibility</h2>")
+        if not a11y["new"]:
+            h.append(f"<p class='mutedt'>{esc(a11y_none(a11y))}</p>")
+        else:
+            h.append(f"<p class='sub'>{esc(a11y_summary(a11y))}</p><div class='tablewrap'><table><thead><tr><th>Impact</th>"
+                     "<th>Page</th><th>Rule</th><th>Target</th><th>Help</th></tr></thead><tbody>")
+            for x in a11y["new"]:
+                icls = "bad" if x["impact"] in ("serious", "critical") else "mutedt"
+                h.append(f"<tr><td class='{icls}'>{esc(x['impact'])}</td><td>{esc(x['page'])} {esc(x['viewport'])}</td>"
+                         f"<td><code>{esc(x['rule'])}</code></td><td><code>{esc(x['target'])}</code></td><td>{esc(x['help'])}</td></tr>")
+            h.append("</tbody></table></div>")
+
     h.append("<h2>Notes</h2><ul class='notes'>" + "".join(f"<li>{esc(n)}</li>" for n in auto_notes(rows, baseline, iters, order, confirm, primary)) + "</ul>")
     if notes_extra.strip():
         h.append("".join(f"<p>{esc(p)}</p>" for p in notes_extra.strip().split("\n\n")))
@@ -478,6 +508,14 @@ def render(a):
         md.append(f"| {it} | {d['hypothesis']} | {d['decision']}{' (after retry)' if d['retried'] else ''}: {d['reason'][:160]} | {(d['commit'] or '–')[:9]} |")
     if ch:
         md += ["", "### Dependency and configuration changes", ""] + [f"- Iteration {it} ({'kept' if dec == 'keep' else 'reverted'}): {c}" for it, dec, c in ch]
+    if a11y:
+        md += ["", "### Accessibility", ""]
+        if not a11y["new"]:
+            md.append(a11y_none(a11y))
+        else:
+            md += [a11y_summary(a11y), "", "| Impact | Page | Rule | Target |", "|---|---|---|---|"]
+            md += [f"| {x['impact']} | `{x['page']}` {x['viewport']} | `{x['rule']}` | `{md_cell(x['target'])}` |"
+                   for x in a11y["new"]]
     md += ["", "### Notes", ""] + [f"- {n}" for n in auto_notes(rows, baseline, iters, order, confirm, primary)]
     if notes_extra.strip():
         md += ["", notes_extra.strip()]
@@ -495,6 +533,7 @@ def main():
     ap.add_argument("--status", choices=["running", "finished"], default="running")
     ap.add_argument("--notes")
     ap.add_argument("--primary", default="lcp")
+    ap.add_argument("--a11y", help="a11y.json from compare.py a11y")
     render(ap.parse_args())
 
 
