@@ -1,6 +1,9 @@
 {
   "name": "gwpicard-skills",
-  "owner": { "name": "Guillaume Picard", "url": "https://github.com/gwpicard" },
+  "owner": {
+    "name": "Guillaume Picard",
+    "url": "https://github.com/gwpicard"
+  },
   "metadata": {
     "description": "Guillaume Picard's Claude skills: a stable set and an experimental set."
   },
@@ -32,7 +35,8 @@
         "./skills/handoff-session",
         "./skills/organize-directory",
         "./skills/pageload-loop",
-        "./skills/project-init"
+        "./skills/project-init",
+        "./skills/what-do-you-need"
       ]
     }
   ]
