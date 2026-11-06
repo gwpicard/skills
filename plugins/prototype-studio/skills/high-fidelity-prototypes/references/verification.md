@@ -18,6 +18,10 @@ For a substantial prototype, cover the relevant invariants:
 - An interrupted operation retains the last usable state and input.
 - Reload preserves expected state; a reset permits another walkthrough.
 - Export, parsing, validation or external integration claims match what actually runs.
+- An empty product, a search with no matches, permission denied, missing data and a service error each look different.
+- A deep link opens the right record and state; Back and Forward behave predictably.
+- A repeated click during a pending action creates no duplicate; a simulated failure rolls back any optimistic change.
+- Every scenario preset is reachable, and reset returns to the same starting point each time.
 
 Apply the relevant subset. Do not create irrelevant review or AI features to satisfy a checklist.
 
@@ -25,11 +29,27 @@ Apply the relevant subset. Do not create irrelevant review or AI features to sat
 
 Use an available supported browser/testing tool to inspect the actual running interface. Capture and examine the main screens, an active/contextual state, and a narrow viewport. Inspect overflow, long labels/content, dialogs, real font rendering, empty states, focus, and scroll position.
 
-Exercise keyboard navigation and a complete primary action without relying on hover. Check that primary controls have accessible names and that status changes are perceivable. For authoring tools, distinguish accessibility of the application from accessibility of the exported artifact.
+Stress the interface with long text, empty data, dense data, slow responses, failures, browser zoom and system preferences. Check widths near layout breakpoints, not only the two main ones, and confirm that menus, tooltips, dialogs and sticky elements do not hide important content.
 
-Compare claimed visual properties against actual specimens. Verify a visual change appears at the correct location in comparison/history, not merely in text below the artifact. If export parity is a product claim, compare exported output rather than assuming browser print matches.
+Exercise keyboard navigation and a complete primary action without relying on hover. Compare claimed visual properties against actual specimens. Verify a visual change appears at the correct location in comparison/history, not merely in text below the artifact. If export parity is a product claim, compare exported output rather than assuming browser print matches.
 
 When browser inspection is unavailable, perform syntax, route/render and state-transition checks if useful. Clearly state what was verified and that visual verification is incomplete. A VM test with a mocked DOM cannot establish DOM event behavior, layout, accessibility or screenshot fidelity.
+
+## Accessibility
+
+Use WCAG 2.2 AA as the default target unless the project sets another. Record what you checked; never call the prototype compliant on the strength of an automated scan.
+
+- Native elements before ARIA; every control has a meaningful accessible name.
+- Full keyboard operation in a logical order, with focus visible and not hidden under sticky content or overlays.
+- Dialogs trap focus and return it to the control that opened them.
+- Labels, hints and errors are associated with their inputs.
+- Status is not carried by colour alone; important asynchronous updates are announced without constant interruption.
+- Text and non-text contrast meet the WCAG criteria. Do not substitute another contrast model when checking WCAG.
+- The layout reflows at 400% zoom and with larger text; reduced motion is respected; gestures have alternatives.
+- Targets are comfortably sized; inputs use suitable types and autocomplete and permit paste.
+- Headings, landmarks, page titles, image alternatives, and labels for charts and tables make sense.
+
+Run an automated checker such as axe on meaningful states, including an open dialog and a form with errors, not only the default view. Then do the keyboard and zoom checks by hand. For authoring tools, distinguish accessibility of the application from accessibility of the exported artifact. Screen-reader testing with real assistive technology is a separate step; say whether it happened.
 
 ## Visual and perception review
 
@@ -42,9 +62,20 @@ Interaction checks do not show whether the prototype looks right or says the rig
 - Review motion frame by frame when motion carries meaning: movements should be believable, loops should make sense, and nothing should appear from nowhere.
 - Hold the critic's verdict apart from the user's. AI critics agree on tells but disagree on taste; the user makes the taste call.
 
+If you keep screenshot baselines, review each one before approving it: a regression test can faithfully preserve a poor design.
+
 When tuning stalls after two or three passes, ask a fresh agent to diagnose the cause from scratch before trying another fix.
 
 ## Review feedback as evidence
+
+Keep what was seen apart from what it means:
+
+| Type | Example |
+|---|---|
+| Observation | Four participants opened Billing while looking for team permissions |
+| Interpretation | The navigation grouping may conflict with their expectations |
+| Proposed change | Move permissions under Team and retest the label |
+| Uncertainty | Small sample; the task wording may have steered them |
 
 Translate each observation into the underlying issue: destination/state confusion, ambiguous scope, undiscoverable action, incorrect data model, weak visual hierarchy, missing recovery, or absent specimen detail. Repair the pattern and its affected instances; avoid isolated wording patches.
 
@@ -52,4 +83,4 @@ After a substantial iteration, remove obsolete code and controls, consolidate du
 
 ## Handoff
 
-Provide the actual runnable URL or local file and brief directions for the important interactions. Report checks completed, concrete limitations and which services/data are simulated. Keep these notes outside normal product UI unless they affect a user's decision within the flow. Do not claim production readiness, successful export, accessibility conformance or visual QA without supporting verification.
+Provide the actual runnable URL or local file and a short scenario guide: entry routes, presets, how to reset, and the interactions worth trying. Report coverage against the capability matrix, checks completed, concrete limitations and which services and data are simulated. Say which design decisions rest on observation of users, standards, convention or preference, and list the assumptions that still need testing with people; if asked, draft neutral task scripts for that testing. Another person should be able to open, explore and reset the prototype without the builder present. Keep these notes outside normal product UI unless they affect a user's decision within the flow. Do not claim production readiness, successful export, accessibility conformance or visual QA without supporting verification.

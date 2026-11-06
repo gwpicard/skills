@@ -34,6 +34,8 @@ Feedback words describe a perception. Translate them into properties you can cha
 
 Show three to five levels of one property on the same subject: for a line, clean to textured; for an object, matte to rendered; for a layout, quiet to dense. Render them on real content beside the real headline. The user's choice then comes with a limit ("no cleaner than level 2"), which becomes a rule.
 
+For an application, render the levels on a representative set rather than one screen: a dense list or table, a form, a detail view and an empty or error state, all with the same realistic content. Compare hierarchy, type, density and composition, not only accent colours. A direction that works only on a spacious hero is not yet a direction for the product.
+
 ## 5. Colour and accents
 
 - One accent colour per meaning. If the accent appears on ten kinds of element, it has ten meanings and none.

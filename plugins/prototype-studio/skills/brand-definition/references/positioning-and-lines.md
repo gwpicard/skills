@@ -21,6 +21,19 @@ Name stages and offers by the work, kept short: "Review and plan" beats "Review 
 
 Pressure-test ambition words before adopting them. "Lean" can imply headcount cuts; define an aspiration through observable traits instead.
 
+## Attributes that do work
+
+Pick three to five attributes, and make each one operational so it can steer copy and design:
+
+```
+Precise
+  In copy: name the operation and the number; no hedging adjectives.
+  In design: fine consistent line, a visible grid, exact alignment.
+  Must not become: cold or technical for its own sake.
+```
+
+An attribute without a design line and a "must not become" line is a slogan. Where it helps, give voice and design the same pillars, so a copywriter and a designer apply the same idea.
+
 ## Voice
 
 Write `voice.md` with a small set of rules, each with a before/after pair from the organisation's own copy. Rules that recur:
@@ -30,6 +43,18 @@ Write `voice.md` with a small set of rules, each with a before/after pair from t
 - Verbs that name the actual operation ("detects", "reports", "approves") rather than "helps", "enables", "drives".
 - A banned-word list: consultant jargon and AI-sounding words ("real work", "holistic", "groundwork", "seamless", "unlock", "empower", "leverage"), plus terms the user rejects during the work.
 - Remove copy that adds nothing: legends, eyebrows, meta lines, instructions the interface makes obvious.
+
+Keep the terms as data in `terminology.yaml`, so banned and preferred words can be checked mechanically:
+
+```yaml
+- prefer: "review"
+  avoid: ["audit", "health check"]
+  context: "name of the first stage, everywhere"
+  source: "decisions.md D4"
+- avoid: ["seamless", "unlock", "leverage"]
+  context: "all copy"
+  source: "voice review, round 2"
+```
 
 ## Lines that take a stance
 

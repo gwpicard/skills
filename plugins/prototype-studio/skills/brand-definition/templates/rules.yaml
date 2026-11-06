@@ -1,0 +1,54 @@
+# Brand rules as records. SPEC.md explains; this file makes each rule checkable and traceable.
+# strength: hard (must/never) | soft (should/prefer)
+# severity: error | warning | info
+# check: deterministic (code can decide) | measured (a script measures, a person sets the threshold)
+#        | judgement (goes to rubric.md for critics, never a pass/fail gate)
+# status: proposed | active | retired (keep retired rules, with reason and date)
+# A rule without a source is a bug. A measurement alone never creates a hard rule.
+
+- id: R-001
+  rule: "Text meets 4.5:1 contrast on every theme"
+  strength: hard
+  severity: error
+  check: deterministic
+  how: "colour_check.py over every color.text.* role against every color.surface.* role, both themes"
+  source: "kit-sections.md, Accessibility"
+  status: active
+
+- id: R-002
+  rule: "The accent appears at most once per screen"
+  strength: hard
+  severity: error
+  check: deterministic
+  how: "count elements using color.accent.* per viewport; must be <= 1"
+  do: specimens/accent-do.png
+  dont: specimens/accent-dont.png
+  source: "decisions.md D<n>"
+  status: proposed
+
+- id: R-003
+  rule: "Builds use role tokens only; no raw colour values"
+  strength: hard
+  severity: error
+  check: deterministic
+  how: "search built CSS/JS for hex, rgb() and hsl() literals outside the tokens file"
+  source: "spec-and-tokens.md"
+  status: active
+
+- id: R-004
+  rule: "Logo is never smaller than its minimum width"
+  strength: hard
+  severity: error
+  check: measured
+  how: "rendered width of every logo instance >= logo minimum for its variant"
+  source: "SPEC.md, Logo"
+  status: proposed
+
+- id: R-005
+  rule: "Illustrations stay ink at rest; colour only on hover or focus"
+  strength: soft
+  severity: warning
+  check: judgement
+  how: "rubric question Q-03"
+  source: "decisions.md D<n>; exemplars/gold/<file>"
+  status: proposed

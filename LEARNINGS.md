@@ -134,3 +134,47 @@ Lives in: spec-and-tokens.md (never.md); high-fidelity-prototypes/SKILL.md; desi
 ## L30. Archive before replacing
 Evidence: dated archives with notes made many reversals cheap, including a story decision reversed after review.
 Lives in: brand-definition/SKILL.md.
+
+## Source: an internal document-generation product's theme design, and public brand kits, Nov 2026
+
+Added on 6 November 2026 from the design documents of a product that generates on-brand documents from a theme, and from GitHub's brand toolkit (brand.github.com), Carbon (carbondesignsystem.com) and Dropbox Brand (brand.dropbox.com).
+
+## L31. Keep rules as records with a source, a strength and a check type
+Evidence: the document product stores every rule with origin, strength, severity, check tier, provenance and status; its linter rejects a rule without provenance, and a measured regularity can never become a hard rule. Aspirational guidance becomes rubric text, never a pass/fail check.
+Lives in: spec-and-tokens.md (rules.yaml); templates/rules.yaml.
+
+## L32. Make a rendered specimen sheet the gate for codifying, and keep gold and anti exemplars
+Evidence: the product renders fixed placeholder content through every component and compares the sheet with approved examples; gold examples must pass clean and anti examples must be flagged, and a new rule must fire on its triggering example and stay silent on every gold one.
+Lives in: spec-and-tokens.md; brand-definition/SKILL.md (stage 6 gate).
+
+## L33. Give critics a closed rubric
+Evidence: the product's vision critic judges only a fixed rubric; invented rubric items are dropped. This keeps reviews comparable across rounds.
+Lives in: design-critique/SKILL.md; templates/rubric.md.
+
+## L34. Name tokens by role, in two tiers, with themes that swap values under fixed names
+Evidence: Carbon names colour tokens by role and state (text-primary, link-primary-hover, focus) and keeps role names fixed across four themes while swapping values. Two tiers (primitives and roles) are enough for a small organisation.
+Lives in: spec-and-tokens.md; templates/tokens.json.
+
+## L35. Cover the kit sections a brand actually needs, with numbers
+Evidence: all three public kits state logo clear space and minimum sizes, full type styles (Carbon: size, leading, weight, tracking per style), a grid with a base unit and allowed ratios (Carbon 2x Grid), an image system divided by job and size tier (Dropbox: spot 120 px, pictogram 64 px, UI 24 px), and motion durations and easing curves.
+Lives in: brand-definition/references/kit-sections.md; templates/SPEC.md.
+
+## L36. State colour proportion and a loudness scale, not only a palette
+Evidence: GitHub's rule "mostly neutral colors with small moments of green", and its textures and key art that "modulate loudness"; Carbon's productive and expressive type sets and motion.
+Lives in: kit-sections.md (Colour, Expression levels).
+
+## L37. Make attributes operational in copy and in design
+Evidence: GitHub defines each brand attribute with what it means in copy, design and events; Dropbox mirrors its design pillars with its voice pillars.
+Lives in: positioning-and-lines.md (Attributes that do work).
+
+## L38. In a rebrand, extract claims with quotes, measure practice and turn conflicts into questions
+Evidence: the document product extracts typed claims with verbatim quotes (discarding unquoted ones), measures approved examples, and turns each disagreement between guideline and practice into a question shown with page crops.
+Lives in: brand-definition/references/existing-material.md.
+
+## L39. Record font licences and asset rights in the kit
+Evidence: the product refuses fonts without a licence file and gives every asset a rights entry that stays unconfirmed until a person confirms it.
+Lives in: spec-and-tokens.md (Rights and licences).
+
+## L40. Deliver applications as templates
+Evidence: GitHub's "brand in action" is mostly downloadable templates (presentations, social, eBooks); a small team copies a working file more reliably than it follows guidance.
+Lives in: kit-sections.md (Applications).

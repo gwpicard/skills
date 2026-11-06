@@ -21,7 +21,8 @@ In `skills/brand-definition/`:
 - `scripts/capture.mjs`: viewport strips, section crops or a full page, for references and builds;
 - `scripts/measure_reference.mjs`: computed anatomy of one or more pages as a comparison table, including counts of common agent defaults;
 - `scripts/colour_check.py`: WCAG contrast and CIEDE2000 colour difference for a set of checks, no dependencies;
-- `templates/compare.html`: one review page for a round of options, with picks, notes and a "Copy decisions" button.
+- `templates/compare.html`: one review page for a round of options, with picks, notes and a "Copy decisions" button;
+- `templates/tokens.json`, `rules.yaml`, `SPEC.md`, `rubric.md`: starting files for a brand kit (role-named tokens with light and dark themes, rules as records, a spec skeleton, a closed review rubric).
 
 The two `.mjs` scripts need Puppeteer (`npm i puppeteer` in a scratch folder, or set `PUPPETEER_PATH`).
 
@@ -53,4 +54,4 @@ npx skills add gwpicard/skills
 
 ## Status
 
-Version 0.1.0. The guidance comes from one long brand and website project run with Claude and Codex, generalised. [LEARNINGS.md](../../LEARNINGS.md) records each lesson, its evidence and where it lives in the skills. The scripts have been run locally; the skills have not yet been evaluated against a baseline.
+Version 0.2.0. The guidance comes from one long brand and website project run with Claude and Codex, generalised. [LEARNINGS.md](../../LEARNINGS.md) records each lesson, its evidence and where it lives in the skills. The scripts have been run locally; the skills have not yet been evaluated against a baseline.

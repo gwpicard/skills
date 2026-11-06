@@ -38,6 +38,11 @@
         "./skills/project-init",
         "./skills/what-do-you-need"
       ]
+    },
+    {
+      "name": "prototype-studio",
+      "description": "Experimental: define a brand and build high-fidelity prototypes that do not look agent-made. Brand definition, prototypes and design critique, with critic agents, scripts and kit templates.",
+      "source": "./plugins/prototype-studio"
     }
   ]
 }

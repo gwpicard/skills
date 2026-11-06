@@ -148,8 +148,8 @@ Fill `brief.md` and `prompt.md` from `assets/lead-prompt.md`. Copy
 `python3 $T/compare.py insights --insights .pageload/runs/iter-00/insights.json --only-variant a`
 and the catalogue in `references/strategies.md`. Score each one as
 estimated LCP ms saved ÷ risk (1 low, 2 medium, 3 high). Drop anything
-whose estimate is below the noise floor and anything the constraints
-forbid. Write the ranked list to `backlog.md` with the evidence (insight ID,
+whose estimate is below the noise floor, anything the constraints
+forbid, and the report-only items (they go into the final notes). Write the ranked list to `backlog.md` with the evidence (insight ID,
 the URL or element it names).
 
 ## Step 5. Confirm and launch
@@ -251,8 +251,9 @@ If the user asks to stop mid-iteration, revert the uncommitted change first.
      --noise .pageload/noise.json --hypothesis "original vs final" --commit <head sha>
    ```
 3. Write honest notes to `.pageload/notes.md`: what did not work and why,
-   what could not be measured (cache headers, field INP), risks the user
-   should review. Then
+   what could not be measured (the report-only recommendations in
+   `references/strategies.md` that apply, such as cache headers, CDN,
+   bfcache and field INP), risks the user should review. Then
    `python3 $T/report.py --runs-jsonl .pageload/runs.jsonl --out-dir .pageload --goal "<goal>" --status finished --notes .pageload/notes.md`.
 4. Tell the user: the confirmed change per page and profile with its 95%
    interval, whether the goal is met, the dependency and config changes, and

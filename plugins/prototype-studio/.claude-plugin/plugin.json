@@ -3,7 +3,7 @@
   "name": "prototype-studio",
   "displayName": "Prototype Studio",
   "description": "Define a brand and build high-fidelity prototypes that do not look agent-made.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Guillaume Picard"
   },

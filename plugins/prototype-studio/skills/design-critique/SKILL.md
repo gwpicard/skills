@@ -26,6 +26,8 @@ Prompts for each lens are in [references/critic-prompts.md](references/critic-pr
 ## Rules for every critic
 
 - Fresh context: the critic sees the rendered output and the files it needs, not the build conversation.
+- When the brand kit has a `rubric.md`, critics judge only its questions and answer pass or fail with evidence. A finding outside the rubric is dropped or proposed as a new question for the user to accept. This keeps reviews comparable from round to round.
+- Run deterministic checks (contrast, token use, sizes) before asking critics. The cheapest check that can decide a rule should decide it.
 - Blind where it matters: randomise labels; never reveal which model or round built what.
 - List the fixed decisions the critic must not challenge (approved palette, stage names, the headline), so its suggestions can be built.
 - Ask for evidence: counts, measurements, the element and where it is. No praise; no general quality claims.

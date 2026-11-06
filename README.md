@@ -28,6 +28,7 @@ These work for me but still change often.
 | [pageload-loop](skills/pageload-loop) | Speeds up web pages one measured change at a time, keeps only real gains and reports before, during and after. |
 | [project-init](skills/project-init) | Sets up CLAUDE.md, `.claude/` and a development plan for a new or existing project. |
 | [what-do-you-need](skills/what-do-you-need) | Gives a short status when you've lost track: what is done, what Claude needs from you and what you must decide. |
+| [prototype-studio](plugins/prototype-studio) (plugin) | Defines a brand and builds high-fidelity prototypes that do not look agent-made: brand definition, prototypes and design critique, with critic agents, scripts and kit templates. |
 
 ## Install
 
@@ -37,6 +38,7 @@ These work for me but still change often.
 /plugin marketplace add gwpicard/skills
 /plugin install gwp-skills@gwpicard-skills
 /plugin install gwp-experimental@gwpicard-skills
+/plugin install prototype-studio@gwpicard-skills
 ```
 
 Plugin skills are namespaced, for example `/gwp-skills:prd`. Turn on auto-update under `/plugin` → Marketplaces to receive new versions.
