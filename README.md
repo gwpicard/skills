@@ -23,7 +23,7 @@ These work for me but still change often.
 | [eval-skill](skills/eval-skill) | Reviews a `SKILL.md` against best practices for descriptions, structure and triggering. |
 | [evals](skills/evals) | Designs evaluation strategies for LLM products. |
 | [gauntlet-loop](skills/gauntlet-loop) | Runs a loop where builder agents improve an output and blind critics compare it against a real reference until it wins. |
-| [handoff-session](skills/handoff-session) | Writes a continuation prompt and reference document so a new session resumes work without re-deriving decisions. |
+| [handoff-session](skills/handoff-session) | Writes a handoff so work resumes later: a continuation prompt with live git, PR and CI state in a repo, or a standalone document for any other conversation. |
 | [organize-directory](skills/organize-directory) | Organises a folder in three steps (scan, propose, apply), reversibly and with an undo script. |
 | [pageload-loop](skills/pageload-loop) | Speeds up web pages one measured change at a time, keeps only real gains and reports before, during and after. |
 | [project-init](skills/project-init) | Sets up CLAUDE.md, `.claude/` and a development plan for a new or existing project. |
