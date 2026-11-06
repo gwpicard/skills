@@ -221,7 +221,7 @@ real 13.6 output):
 | Render-blocking requests | `render-blocking-insight` | `render-blocking-resources` |
 | Images: format, size, compression | `image-delivery-insight` | `uses-webp-images`, `uses-optimized-images`, `uses-responsive-images`, `efficient-animated-content` |
 | Cache lifetimes | `cache-insight` | `uses-long-cache-ttl` |
-| Server time, redirects, compression | `document-latency-insight` | `server-response-time` (still present), `redirects`, `uses-text-compression` |
+| Server time, redirects, compression | `document-latency-insight` | `server-response-time` (still present), `redirects` (still present, hidden group), `uses-text-compression` |
 | Request chains, preconnect | `network-dependency-tree-insight` | `critical-request-chains`, `uses-rel-preconnect` |
 | Fonts | `font-display-insight` | `font-display` |
 | Third parties | `third-parties-insight` | `third-party-summary` |
@@ -235,7 +235,9 @@ Removed without replacement: `third-party-facades`, `uses-rel-preload`,
 `uses-passive-event-listeners`. Still present: `unused-css-rules`,
 `unused-javascript`, `unminified-css`, `unminified-javascript`,
 `total-byte-weight`, `bootup-time`, `mainthread-work-breakdown`,
-`screenshot-thumbnails`, `final-screenshot`.
+`long-tasks`, `non-composited-animations`, `unsized-images`, `bf-cache`,
+`screenshot-thumbnails`, `final-screenshot`. `redirects` is still computed but
+sits in a hidden group, so it does not appear in the HTML report.
 
 Savings estimates are in each audit's `metricSavings` (`LCP`, `FCP`, `CLS`,
 `INP` keys). `compare.py insights` ranks them.
