@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "prototype-studio",
+  "version": "0.1.0",
+  "description": "Define a brand and build high-fidelity prototypes that do not look agent-made.",
+  "author": {
+    "name": "Guillaume Picard"
+  },
+  "license": "MIT",
+  "keywords": ["design", "brand", "prototyping", "agent-skills"]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Critique"
+  short_description: "Fresh-context blind, perception, spec and colour reviews of a design"
+  default_prompt: "Use $design-critique to review these designs with fresh-context critics and report what they agree on."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Brand Definition"
+  short_description: "Define positioning, voice, a reference bar and a binding visual spec in gated stages"
+  default_prompt: "Use $brand-definition to define our brand, starting from our real work and references I choose."

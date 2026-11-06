@@ -1,0 +1,4 @@
+interface:
+  display_name: "High-Fidelity Prototypes"
+  short_description: "Build coherent, interactive product prototypes with a deliberate visual direction"
+  default_prompt: "Use $high-fidelity-prototypes to turn this idea into an interactive product prototype with realistic content, coherent behaviour and a visual direction based on references I choose."

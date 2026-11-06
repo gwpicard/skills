@@ -1,0 +1,149 @@
+{
+  "slug": "consistent-ai-characters-voices-and-scenes-advanced-workflow-swx780Vy_OQ",
+  "url": "https://www.youtube.com/watch?v=swx780Vy_OQ",
+  "title": "Consistent AI Characters, Voices and Scenes (Advanced Workflow) | Runway",
+  "duration": 565,
+  "transcript": {
+    "source": "captions-auto",
+    "min_words": 1600,
+    "max_words": 1950,
+    "chapters": 10
+  },
+  "moments": [
+    {
+      "t": 45,
+      "label": "Call and response slide",
+      "kind": "cut"
+    },
+    {
+      "t": 99,
+      "label": "five story rules slide complete (end of fill animation)",
+      "kind": "cut"
+    },
+    {
+      "t": 139,
+      "label": "casting prompt typed in Agent",
+      "kind": "ui"
+    },
+    {
+      "t": 149,
+      "label": "upscaler sliders",
+      "kind": "ui"
+    },
+    {
+      "t": 153,
+      "label": "GPT Image 2 cleanup prompt",
+      "kind": "ui"
+    },
+    {
+      "t": 249,
+      "label": "annotation button click",
+      "kind": "ui-small"
+    },
+    {
+      "t": 252,
+      "label": "references loaded",
+      "kind": "ui"
+    },
+    {
+      "t": 259,
+      "label": "sketch added as Image 4",
+      "kind": "ui"
+    },
+    {
+      "t": 266,
+      "label": "burst prompt pasted",
+      "kind": "ui"
+    },
+    {
+      "t": 274,
+      "label": "settings at generate time (10s chip)",
+      "kind": "cut"
+    },
+    {
+      "t": 332,
+      "label": "Keyframe tab",
+      "kind": "cut"
+    },
+    {
+      "t": 362,
+      "label": "Voices panel settled after its animation",
+      "kind": "ui"
+    },
+    {
+      "t": 380,
+      "label": "Claude slash command",
+      "kind": "cut"
+    },
+    {
+      "t": 397,
+      "label": "follow-up message typed",
+      "kind": "ui"
+    },
+    {
+      "t": 401,
+      "label": "Runway MCP tool card",
+      "kind": "ui"
+    }
+  ],
+  "ui_segments": [
+    {
+      "start": 136,
+      "end": 158,
+      "label": "Agent prompts and upscaler"
+    },
+    {
+      "start": 244,
+      "end": 275,
+      "label": "Burst method setup"
+    },
+    {
+      "start": 376,
+      "end": 404,
+      "label": "Claude session"
+    }
+  ],
+  "expect": {
+    "deep": {
+      "ui_coverage": 0.9,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 8,
+      "max_frames": 200,
+      "runtime_s": 30
+    },
+    "standard": {
+      "ui_coverage": 0.7,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 12,
+      "max_frames": 100,
+      "runtime_s": 30
+    },
+    "light": {
+      "ui_coverage": 0.0,
+      "cut_coverage": 0.6,
+      "max_gap_ui": 60,
+      "max_frames": 25,
+      "runtime_s": 20
+    }
+  },
+  "notes_must_contain": [
+    "Resemblance",
+    "934/15000",
+    "generate_video",
+    "Generate a character sheet for this character",
+    "Seedance 2.5",
+    "@image4",
+    "Nano Banana 2 Lite",
+    "Keyframe",
+    "runway-sd-enhancer"
+  ],
+  "notes_should_not_contain": [
+    "Cance 2.5",
+    "Seance"
+  ],
+  "notes_min_timestamps": 25,
+  "resources_expected": [
+    "a-game-of-horse.md",
+    "runway-sd-enhancer-skill.md"
+  ]
+}

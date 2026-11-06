@@ -1,0 +1,39 @@
+{
+  "name": "gwpicard-skills",
+  "owner": { "name": "Guillaume Picard", "url": "https://github.com/gwpicard" },
+  "metadata": {
+    "description": "Guillaume Picard's Claude skills: a stable set and an experimental set."
+  },
+  "plugins": [
+    {
+      "name": "gwp-skills",
+      "description": "Stable skills: repo analysis, video learnings, PRDs, skill authoring, website review, plain-language rewrites and language audits.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/analyze-repo",
+        "./skills/im-lost",
+        "./skills/language-audit",
+        "./skills/learning-from-videos",
+        "./skills/prd",
+        "./skills/skill-authoring",
+        "./skills/website-review"
+      ]
+    },
+    {
+      "name": "gwp-experimental",
+      "description": "Experimental skills: goal loops, evals, session handoffs, project setup and directory organisation. Expect changes.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/eval-skill",
+        "./skills/evals",
+        "./skills/gauntlet-loop",
+        "./skills/handoff-session",
+        "./skills/organize-directory",
+        "./skills/pageload-loop",
+        "./skills/project-init"
+      ]
+    }
+  ]
+}

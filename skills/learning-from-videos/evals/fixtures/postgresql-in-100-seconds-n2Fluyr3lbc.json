@@ -1,0 +1,121 @@
+{
+  "slug": "postgresql-in-100-seconds-n2Fluyr3lbc",
+  "url": "https://www.youtube.com/watch?v=n2Fluyr3lbc",
+  "title": "PostgreSQL in 100 Seconds",
+  "duration": 156,
+  "transcript": {
+    "source": "captions-auto",
+    "min_words": 450,
+    "max_words": 650,
+    "chapters": 0
+  },
+  "moments": [
+    {
+      "t": 21,
+      "label": "CUSTOM TYPES slide",
+      "kind": "cut"
+    },
+    {
+      "t": 45,
+      "label": "STORED PROCEDURES slide",
+      "kind": "cut"
+    },
+    {
+      "t": 54,
+      "label": "PostGIS query slide",
+      "kind": "cut"
+    },
+    {
+      "t": 101,
+      "label": "typing CREATE TYPE Human",
+      "kind": "ui"
+    },
+    {
+      "t": 105,
+      "label": "typing name TEXT",
+      "kind": "ui"
+    },
+    {
+      "t": 108,
+      "label": "typing birthday DATE",
+      "kind": "ui"
+    },
+    {
+      "t": 113,
+      "label": "typing dna CHAR[4][4]",
+      "kind": "ui"
+    },
+    {
+      "t": 118,
+      "label": "typing bio JSON",
+      "kind": "ui"
+    },
+    {
+      "t": 122,
+      "label": "typing programmers table",
+      "kind": "ui"
+    },
+    {
+      "t": 125,
+      "label": "typing INSERT",
+      "kind": "ui"
+    },
+    {
+      "t": 130,
+      "label": "typing ARRAY / casts",
+      "kind": "ui"
+    },
+    {
+      "t": 133,
+      "label": "PRIMARY KEY diagram",
+      "kind": "cut"
+    }
+  ],
+  "ui_segments": [
+    {
+      "start": 98,
+      "end": 134,
+      "label": "code typed in VS Code"
+    }
+  ],
+  "expect": {
+    "deep": {
+      "ui_coverage": 0.9,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 6,
+      "max_frames": 200,
+      "runtime_s": 20
+    },
+    "standard": {
+      "ui_coverage": 0.7,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 12,
+      "max_frames": 100,
+      "runtime_s": 20
+    },
+    "light": {
+      "ui_coverage": 0.0,
+      "cut_coverage": 0.7,
+      "max_gap_ui": 60,
+      "max_frames": 25,
+      "runtime_s": 15
+    }
+  },
+  "notes_must_contain": [
+    "CHAR[4][4]",
+    "hstore",
+    "SQLTools",
+    "ROW(",
+    "ARRAY[",
+    "Neon",
+    "PostGIS"
+  ],
+  "notes_should_not_contain": [
+    "post GIS",
+    "cytus"
+  ],
+  "notes_min_timestamps": 15,
+  "resources_expected": [
+    "docs.md"
+  ]
+}

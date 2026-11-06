@@ -1,0 +1,165 @@
+{
+  "slug": "settings-sync-in-visual-studio-code-it-s-built-in-now-3dsq39DEgZ8",
+  "url": "https://www.youtube.com/watch?v=3dsq39DEgZ8",
+  "title": "Settings Sync in Visual Studio Code - IT's BUILT IN NOW!",
+  "duration": 313,
+  "transcript": {
+    "source": "captions-auto",
+    "min_words": 1050,
+    "max_words": 1400,
+    "chapters": 4
+  },
+  "moments": [
+    {
+      "t": 20,
+      "label": "docs page with Manage menu open",
+      "kind": "ui"
+    },
+    {
+      "t": 49,
+      "label": "cut to personal website",
+      "kind": "cut"
+    },
+    {
+      "t": 78,
+      "label": "cut to VS Code editor",
+      "kind": "cut"
+    },
+    {
+      "t": 81,
+      "label": "Settings page opened",
+      "kind": "ui"
+    },
+    {
+      "t": 92,
+      "label": "Explorer context menu opened",
+      "kind": "ui-small"
+    },
+    {
+      "t": 95,
+      "label": "Go menu opened",
+      "kind": "ui-small"
+    },
+    {
+      "t": 97,
+      "label": "Run menu opened",
+      "kind": "ui-small"
+    },
+    {
+      "t": 108,
+      "label": "Extensions view opened",
+      "kind": "ui"
+    },
+    {
+      "t": 111,
+      "label": "Settings Sync extension page",
+      "kind": "ui"
+    },
+    {
+      "t": 127,
+      "label": "back to Settings page",
+      "kind": "ui"
+    },
+    {
+      "t": 135,
+      "label": "Turn on Settings Sync dropdown with checkboxes",
+      "kind": "ui-small"
+    },
+    {
+      "t": 154,
+      "label": "account picker: Sign in with Microsoft",
+      "kind": "ui-small"
+    },
+    {
+      "t": 174,
+      "label": "Last synced: now appears",
+      "kind": "ui-small"
+    },
+    {
+      "t": 177,
+      "label": "command palette filtered to Settings Sync",
+      "kind": "ui-small"
+    },
+    {
+      "t": 181,
+      "label": "Sync Activity panel opened",
+      "kind": "ui"
+    },
+    {
+      "t": 241,
+      "label": "cut to docs page",
+      "kind": "cut"
+    },
+    {
+      "t": 248,
+      "label": "docs scrolled to sign-in dialog",
+      "kind": "ui"
+    },
+    {
+      "t": 254,
+      "label": "docs scrolled to Merge or Replace",
+      "kind": "ui"
+    },
+    {
+      "t": 263,
+      "label": "docs scrolled to merge checklist",
+      "kind": "ui"
+    },
+    {
+      "t": 268,
+      "label": "docs scrolled to Configuring synced data",
+      "kind": "ui"
+    },
+    {
+      "t": 275,
+      "label": "docs scrolled back to sign-in",
+      "kind": "ui"
+    }
+  ],
+  "ui_segments": [
+    {
+      "start": 78,
+      "end": 185,
+      "label": "VS Code walkthrough"
+    },
+    {
+      "start": 241,
+      "end": 280,
+      "label": "docs page scrolling"
+    }
+  ],
+  "expect": {
+    "deep": {
+      "ui_coverage": 0.85,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 22,
+      "max_frames": 200,
+      "runtime_s": 20
+    },
+    "standard": {
+      "ui_coverage": 0.7,
+      "cut_coverage": 0.9,
+      "max_gap_ui": 50,
+      "max_frames": 100,
+      "runtime_s": 20
+    },
+    "light": {
+      "ui_coverage": 0.0,
+      "cut_coverage": 0.6,
+      "max_gap_ui": 110,
+      "max_frames": 25,
+      "runtime_s": 15
+    }
+  },
+  "notes_must_contain": [
+    "Settings Sync",
+    "Turn on Settings Sync",
+    "Merge",
+    "Sync Activity",
+    "Extensions",
+    "Keyboard Shortcuts"
+  ],
+  "notes_should_not_contain": [],
+  "notes_min_timestamps": 12,
+  "resources_expected": []
+}
