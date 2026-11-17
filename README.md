@@ -20,6 +20,7 @@ These work for me but still change often.
 
 | Skill | What it does |
 |---|---|
+| [agent-instructions-review](skills/agent-instructions-review) | Reviews CLAUDE.md and AGENTS.md line by line: best practice, plus history, prohibitions with no alternative, and rules that belong in a hook, permission rule or linter. |
 | [eval-skill](skills/eval-skill) | Reviews a `SKILL.md` against best practices for descriptions, structure and triggering. |
 | [evals](skills/evals) | Designs evaluation strategies for LLM products. |
 | [gauntlet-loop](skills/gauntlet-loop) | Runs a loop where builder agents improve an output and blind critics compare it against a real reference until it wins. |
