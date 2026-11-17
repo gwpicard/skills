@@ -27,6 +27,7 @@ These work for me but still change often.
 | [organize-directory](skills/organize-directory) | Organises a folder in three steps (scan, propose, apply), reversibly and with an undo script. |
 | [pageload-loop](skills/pageload-loop) | Speeds up web pages one measured change at a time, keeps only real gains and reports before, during and after. |
 | [project-init](skills/project-init) | Sets up CLAUDE.md, `.claude/` and a development plan for a new or existing project. |
+| [suggest-hooks](skills/suggest-hooks) | Reads your local Claude Code sessions, proposes hooks backed by what you actually do, each with its exact config, script and test result, and installs only the ones you approve. |
 | [what-do-you-need](skills/what-do-you-need) | Gives a short status when you've lost track: what is done, what Claude needs from you and what you must decide. |
 | [prototype-studio](plugins/prototype-studio) (plugin) | Defines a brand and builds high-fidelity prototypes that do not look agent-made: brand definition, prototypes and design critique, with critic agents, scripts and kit templates. |
 
