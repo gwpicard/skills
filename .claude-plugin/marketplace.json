@@ -25,7 +25,7 @@
     },
     {
       "name": "gwp-experimental",
-      "description": "Experimental skills: goal loops, evals, session handoffs, project setup and directory organisation. Expect changes.",
+      "description": "Experimental skills: goal loops, evals, session handoffs, hook suggestions, project setup and directory organisation. Expect changes.",
       "source": "./",
       "strict": false,
       "skills": [
@@ -36,6 +36,7 @@
         "./skills/organize-directory",
         "./skills/pageload-loop",
         "./skills/project-init",
+        "./skills/suggest-hooks",
         "./skills/what-do-you-need"
       ]
     },
